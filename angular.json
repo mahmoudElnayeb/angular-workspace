@@ -2,9 +2,184 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": false
   },
   "newProjectRoot": "projects",
   "projects": {
+    "retail-internet-banking": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/retail-internet-banking",
+      "sourceRoot": "projects/retail-internet-banking/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/retail-internet-banking/src/main.ts",
+            "tsConfig": "projects/retail-internet-banking/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/retail-internet-banking/public"
+              }
+            ],
+            "styles": ["projects/retail-internet-banking/src/styles.scss"]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/retail-internet-banking/src/environments/environment.ts",
+                  "with": "projects/retail-internet-banking/src/environments/environment.prod.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/retail-internet-banking/src/environments/environment.ts",
+                  "with": "projects/retail-internet-banking/src/environments/environment.develop.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+            "mock": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/retail-internet-banking/src/environments/environment.ts",
+                  "with": "projects/retail-internet-banking/src/environments/environment.mock.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+            "sit": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/retail-internet-banking/src/environments/environment.ts",
+                  "with": "projects/retail-internet-banking/src/environments/environment.sit.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+            "uat": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/retail-internet-banking/src/environments/environment.ts",
+                  "with": "projects/retail-internet-banking/src/environments/environment.uat.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+            "ust": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/retail-internet-banking/src/environments/environment.ts",
+                  "with": "projects/retail-internet-banking/src/environments/environment.ust.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+            "preprod": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/retail-internet-banking/src/environments/environment.ts",
+                  "with": "projects/retail-internet-banking/src/environments/environment.preprod.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "retail-internet-banking:build:production"
+            },
+            "development": {
+              "buildTarget": "retail-internet-banking:build:development"
+            },
+            "mock": {
+              "buildTarget": "retail-internet-banking:build:mock"
+            },
+            "sit": {
+              "buildTarget": "retail-internet-banking:build:sit"
+            },
+            "uat": {
+              "buildTarget": "retail-internet-banking:build:uat"
+            },
+            "ust": {
+              "buildTarget": "retail-internet-banking:build:ust"
+            },
+            "preprod": {
+              "buildTarget": "retail-internet-banking:build:preprod"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
+    },
+    "shared": {
+      "projectType": "library",
+      "root": "projects/shared",
+      "sourceRoot": "projects/shared/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/shared/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/shared/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/shared/tsconfig.spec.json"
+          }
+        }
+      }
+    }
   }
 }
